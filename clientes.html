@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/table.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Clientes</title>
+</head>
+<body>
+    <h1>Clientes</h1>
+
+    <div class="table">
+        <table id="tablaDatos">
+            <thead>
+                <tr>
+                    <th>id_cliente</th>
+                    <th>nombre</th>
+                    <th>apellido</th>
+                    <th>fecha_nac</th>
+                    <th>fk_genero</th>
+                    <th>telefono</th>
+                    <th>correo</th>
+                    <th>fk_direccion</th>
+                    <th>fecha_creacion</th>
+                    <th>fecha_actualizacion</th>
+                    <th>fk_creado_por</th>
+                    <th>fk_actualizado_por</th>
+                    <th>fecha_eliminacion</th>
+                    <th>fk_eliminado_por</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        fetch('http://localhost:3000/api/clientes')
+        .then(response => response.json())
+        .then(data => {
+            let tablaBody = document.querySelector('#tablaDatos tbody');
+
+            //limpieza de contenido
+            tablaBody.innerHTML = '';
+
+            //iteracion sobre datos y agregacion de filas a la tabla
+            data.forEach(cliente => {
+                let fila = document.createElement('tr');
+
+                //creacion de celdas para propiedades del usuario
+                let idCell = document.createElement('td');
+                idCell.textContent = cliente.id_cliente;
+
+                let nameCell = document.createElement('td');
+                nameCell.textContent = cliente.nombre;
+
+                let surnameCell = document.createElement('td');
+                surnameCell.textContent = cliente.apellido;
+
+                let birthdayCell = document.createElement('td');
+                birthdayCell.textContent = cliente.fecha_nac;
+
+                let genreCell = document.createElement('td');
+                genreCell.textContent = cliente.fk_genero;
+
+                let telephoneCell = document.createElement('td');
+                telephoneCell.textContent = cliente.telefono;
+
+                let emailCell = document.createElement('td');
+                emailCell.textContent = cliente.correo;
+
+                let directionCell = document.createElement('td');
+                directionCell.textContent = cliente.fk_direccion;
+
+                let createdDateCell = document.createElement('td');
+                createdDateCell.textContent = cliente.fecha_creacion;
+
+                let actualizationDateCell = document.createElement('td');
+                actualizationDateCell.textContent = cliente.fecha_actualizacion;
+
+                let createdByCell = document.createElement('td');
+                createdByCell.textContent = cliente.fk_creado_por ? cliente.fk_creado_por : '';
+
+                let actualizatedByCell = document.createElement('td');
+                actualizatedByCell.textContent = cliente.fk_actualizado_por ? cliente.fk_actualizado_por : '';
+
+                let eliminatedDateCell = document.createElement('td');
+                eliminatedDateCell.textContent = cliente.fecha_eliminacion ? cliente.fecha_eliminacion : '';
+
+                let eliminatedByCell = document.createElement('td');
+                eliminatedByCell.textContent = cliente.fk_eliminado_por ? cliente.fk_eliminado_por : '';
+
+                //agregacion de las celdas a la fila
+                fila.appendChild(idCell);
+                fila.appendChild(nameCell);
+                fila.appendChild(surnameCell);
+                fila.appendChild(birthdayCell);
+                fila.appendChild(telephoneCell);
+                fila.appendChild(emailCell);
+                fila.appendChild(directionCell);
+                fila.appendChild(createdDateCell);
+                fila.appendChild(actualizationDateCell);
+                fila.appendChild(createdByCell);
+                fila.appendChild(actualizatedByCell);
+                fila.appendChild(eliminatedDateCell);
+                fila.appendChild(eliminatedByCell);
+
+                //agregacion de la fila a la tabla
+                tablaBody.appendChild(fila);
+            })
+        })
+        .catch(error => {
+            console.error('Error al obtener los datos:', error)
+        })
+    </script>
+</body>
+</html>

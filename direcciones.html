@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/table.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Direcciones</title>
+</head>
+<body>
+    <h1>Direcciones</h1>
+
+    <div class="table">
+        <table id="tablaDatos">
+            <thead>
+                <tr>
+                    <th>id_direccion</th>
+                    <th>codigo_postal</th>
+                    <th>calle</th>
+                    <th>colonia</th>
+                    <th>num_ext</th>
+                    <th>num_int</th>
+                    <th>ciudad</th>
+                    <th>fecha_creacion</th>
+                    <th>fecha_actualizacion</th>
+                    <th>fk_creado_por</th>
+                    <th>fk_actualizado_por</th>
+                    <th>fecha_eliminacion</th>
+                    <th>fk_eliminado_por</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        fetch('http://localhost:3000/api/direcciones')
+        .then(response => response.json())
+        .then(data => {
+            let tablaBody = document.querySelector('#tablaDatos tbody');
+
+            //limpieza de contenido
+            tablaBody.innerHTML = '';
+
+            //iteracion sobre datos y agregacion de filas a la tabla
+            data.forEach(direccion => {
+                let fila = document.createElement('tr');
+
+                //creacion de celdas para propiedades del usuario
+                let idCell = document.createElement('td');
+                idCell.textContent = direccion.id_direccion;
+
+                let zipCell = document.createElement('td');
+                zipCell.textContent = direccion.codigo_postal;
+
+                let streetCell = document.createElement('td');
+                streetCell.textContent = direccion.calle;
+
+                let suburbCell = document.createElement('td');
+                suburbCell.textContent = direccion.colonia;
+
+                let extCell = document.createElement('td');
+                extCell.textContent = direccion.num_ext
+
+                let intCell = document.createElement('td');
+                intCell.textContent = direccion.num_int;
+
+                let cityCell = document.createElement('td');
+                cityCell.textContent = direccion.ciudad;
+
+                let createdDateCell = document.createElement('td');
+                createdDateCell.textContent = direccion.fecha_creacion;
+
+                let actualizationDateCell = document.createElement('td');
+                actualizationDateCell.textContent = direccion.fecha_actualizacion;
+
+                let createdByCell = document.createElement('td');
+                createdByCell.textContent = direccion.fk_creado_por ? direccion.fk_creado_por : '';
+
+                let actualizatedByCell = document.createElement('td');
+                actualizatedByCell.textContent = direccion.fk_actualizado_por ? direccion.fk_actualizado_por : '';
+
+                let eliminatedDateCell = document.createElement('td');
+                eliminatedDateCell.textContent = direccion.fecha_eliminacion ? direccion.fecha_eliminacion : '';
+
+                let eliminatedByCell = document.createElement('td');
+                eliminatedByCell.textContent = direccion.fk_eliminado_por ? direccion.fk_eliminado_por : '';
+
+                //agregacion de las celdas a la fila
+                fila.appendChild(idCell);
+                fila.appendChild(zipCell);
+                fila.appendChild(streetCell);
+                fila.appendChild(suburbCell);
+                fila.appendChild(extCell);
+                fila.appendChild(intCell);
+                fila.appendChild(cityCell);
+                fila.appendChild(createdDateCell);
+                fila.appendChild(actualizationDateCell);
+                fila.appendChild(createdByCell);
+                fila.appendChild(actualizatedByCell);
+                fila.appendChild(eliminatedDateCell);
+                fila.appendChild(eliminatedByCell);
+
+                //agregacion de la fila a la tabla
+                tablaBody.appendChild(fila);
+            })
+        })
+        .catch(error => {
+            console.error('Error al obtener los datos:', error)
+        })
+    </script>
+</body>
+</html>

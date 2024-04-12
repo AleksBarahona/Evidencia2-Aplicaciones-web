@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/table.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Sesiones</title>
+</head>
+<body>
+    <h1>Sesiones</h1>
+
+    <div class="table">
+        <table id="tablaDatos">
+            <thead>
+                <tr>
+                    <th>id_sesion</th>
+                    <th>fecha_sesion</th>
+                    <th>hora_sesion</th>
+                    <th>fk_cliente</th>
+                    <th>fecha_venta</th>
+                    <th>fecha_creacion</th>
+                    <th>fecha_actualizacion</th>
+                    <th>fk_creado_por</th>
+                    <th>fk_actualizado_por</th>
+                    <th>fecha_eliminacion</th>
+                    <th>fk_eliminado_por</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        fetch('http://localhost:3000/api/sesiones')
+        .then(response => response.json())
+        .then(data => {
+            let tablaBody = document.querySelector('#tablaDatos tbody');
+
+            //limpieza de contenido
+            tablaBody.innerHTML = '';
+
+            //iteracion sobre datos y agregacion de filas a la tabla
+            data.forEach(sesion => {
+                let fila = document.createElement('tr');
+
+                //creacion de celdas para propiedades del usuario
+                let idCell = document.createElement('td');
+                idCell.textContent = sesion.id_sesion;
+
+                let dateCell = document.createElement('td');
+                dateCell.textContent = sesion.fecha_sesion;
+
+                let hourCell = document.createElement('td');
+                hourCell.textContent = sesion.hora_sesion;
+
+                let clientCell = document.createElement('td');
+                clientCell.textContent = sesion.fk_cliente;
+
+                let saleDateCell = document.createElement('td');
+                saleDateCell.textContent = sesion.fecha_venta;
+
+                let createdDateCell = document.createElement('td');
+                createdDateCell.textContent = sesion.fecha_creacion;
+
+                let actualizationDateCell = document.createElement('td');
+                actualizationDateCell.textContent = sesion.fecha_actualizacion;
+
+                let createdByCell = document.createElement('td');
+                createdByCell.textContent = sesion.fk_creado_por ? sesion.fk_creado_por : '';
+
+                let actualizatedByCell = document.createElement('td');
+                actualizatedByCell.textContent = sesion.fk_actualizado_por ? sesion.fk_actualizado_por : '';
+
+                let eliminatedDateCell = document.createElement('td');
+                eliminatedDateCell.textContent = sesion.fecha_eliminacion ? sesion.fecha_eliminacion : '';
+
+                let eliminatedByCell = document.createElement('td');
+                eliminatedByCell.textContent = sesion.fk_eliminado_por ? sesion.fk_eliminado_por : '';
+
+                //agregacion de las celdas a la fila
+                fila.appendChild(idCell);
+                fila.appendChild(dateCell);
+                fila.appendChild(hourCell);
+                fila.appendChild(clientCell);
+                fila.appendChild(saleDateCell);
+                fila.appendChild(createdDateCell);
+                fila.appendChild(actualizationDateCell);
+                fila.appendChild(createdByCell);
+                fila.appendChild(actualizatedByCell);
+                fila.appendChild(eliminatedDateCell);
+                fila.appendChild(eliminatedByCell);
+
+                //agregacion de la fila a la tabla
+                tablaBody.appendChild(fila);
+            })
+        })
+        .catch(error => {
+            console.error('Error al obtener los datos:', error)
+        })
+    </script>
+</body>
+</html>

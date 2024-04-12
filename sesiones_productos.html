@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/table.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Sesiones_productos</title>
+</head>
+<body>
+    <h1>Sesiones_productos</h1>
+
+    <div class="table">
+        <table id="tablaDatos">
+            <thead>
+                <tr>
+                    <th>fk_sesion</th>
+                    <th>fk_producto</th>
+                    <th>cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        fetch('http://localhost:3000/api/sesionesProductos')
+        .then(response => response.json())
+        .then(data => {
+            let tablaBody = document.querySelector('#tablaDatos tbody');
+
+            //limpieza de contenido
+            tablaBody.innerHTML = '';
+
+            //iteracion sobre datos y agregacion de filas a la tabla
+            data.forEach(sesion_producto => {
+                let fila = document.createElement('tr');
+
+                //creacion de celdas para propiedades del usuario
+                let idCell = document.createElement('td');
+                idCell.textContent = sesion_producto.fk_sesion;
+
+                let productCell = document.createElement('td');
+                productCell.textContent = sesion_producto.fk_producto;
+
+                let cantidadCell = document.createElement('td');
+                cantidadCell.textContent = sesion_producto.cantidad;
+
+                //agregacion de las celdas a la fila
+                fila.appendChild(idCell);
+                fila.appendChild(productCell);
+                fila.appendChild(cantidadCell);
+
+                //agregacion de la fila a la tabla
+                tablaBody.appendChild(fila);
+            })
+        })
+        .catch(error => {
+            console.error('Error al obtener los datos:', error)
+        })
+    </script>
+</body>
+</html>

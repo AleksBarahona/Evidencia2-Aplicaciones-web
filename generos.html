@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/table.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Generos</title>
+</head>
+<body>
+    <h1>Generos</h1>
+
+    <div class="table">
+        <table id="tablaDatos">
+            <thead>
+                <tr>
+                    <th>id_genero</th>
+                    <th>genero</th>
+                    <th>fecha_creacion</th>
+                    <th>fecha_actualizacion</th>
+                    <th>fk_creado_por</th>
+                    <th>fk_actualizado_por</th>
+                    <th>fecha_eliminacion</th>
+                    <th>fk_eliminado_por</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        fetch('http://localhost:3000/api/generos')
+        .then(response => response.json())
+        .then(data => {
+            let tablaBody = document.querySelector('#tablaDatos tbody');
+
+            //limpieza de contenido
+            tablaBody.innerHTML = '';
+
+            //iteracion sobre datos y agregacion de filas a la tabla
+            data.forEach(genero => {
+                let fila = document.createElement('tr');
+
+                //creacion de celdas para propiedades del usuario
+                let idCell = document.createElement('td');
+                idCell.textContent = genero.id_genero;
+
+                let genreCell = document.createElement('td');
+                genreCell.textContent = genero.genero;
+
+                let createdDateCell = document.createElement('td');
+                createdDateCell.textContent = genero.fecha_creacion;
+
+                let actualizationDateCell = document.createElement('td');
+                actualizationDateCell.textContent = genero.fecha_actualizacion;
+
+                let createdByCell = document.createElement('td');
+                createdByCell.textContent = genero.fk_creado_por ? genero.fk_creado_por : '';
+
+                let actualizatedByCell = document.createElement('td');
+                actualizatedByCell.textContent = genero.fk_actualizado_por ? genero.fk_actualizado_por : '';
+
+                let eliminatedDateCell = document.createElement('td');
+                eliminatedDateCell.textContent = genero.fecha_eliminacion ? genero.fecha_eliminacion : '';
+
+                let eliminatedByCell = document.createElement('td');
+                eliminatedByCell.textContent = genero.fk_eliminado_por ? genero.fk_eliminado_por : '';
+
+                //agregacion de las celdas a la fila
+                fila.appendChild(idCell);
+                fila.appendChild(genreCell);
+                fila.appendChild(createdDateCell);
+                fila.appendChild(actualizationDateCell);
+                fila.appendChild(createdByCell);
+                fila.appendChild(actualizatedByCell);
+                fila.appendChild(eliminatedDateCell);
+                fila.appendChild(eliminatedByCell);
+
+                //agregacion de la fila a la tabla
+                tablaBody.appendChild(fila);
+            })
+        })
+        .catch(error => {
+            console.error('Error al obtener los datos:', error)
+        })
+    </script>
+</body>
+</html>
